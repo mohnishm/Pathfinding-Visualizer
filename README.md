@@ -1,3 +1,7 @@
+This project has been inspired by [Clement Mihailescu's](https://github.com/clementmihailescu/) project of the same name.
+
+## 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
