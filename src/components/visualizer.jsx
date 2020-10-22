@@ -1,6 +1,9 @@
 import React from 'react';
 import Node from './node';
-import { dijkstra, getNodesInShortestPathOrder } from '../algorithms/dijkstras'
+import { dijkstra } from '../algorithms/dijkstras';
+import { bfs } from '../algorithms/bfs';
+import { dfs } from '../algorithms/dfs';
+import { getNodesInShortestPathOrder } from '../algorithms/helperFunctions';
 import './visualizer.css';
 import DropDown from './drop-down';
 
@@ -10,6 +13,12 @@ const startRow = 7;
 const startCol = 7;
 const finishRow = 7;
 const finishCol = 20;
+
+const algorithms = {
+    'Dijkstras': dijkstra,
+    'BreadthFirst': bfs,
+    'DepthFirst': dfs,
+  };
 
 export default class Visualizer extends React.Component {
     
@@ -65,11 +74,12 @@ export default class Visualizer extends React.Component {
         }
     }
     
-    visualizeDijkstra() {
+    visualize(algo) {
+        console.log(algo);
         const { grid } = this.state;
         const startNode = grid[startRow][startCol];
         const finishNode = grid[finishRow][finishCol];
-        const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+        const visitedNodesInOrder = algorithms[algo](grid, startNode, finishNode);
         const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
         this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     }
@@ -99,7 +109,7 @@ export default class Visualizer extends React.Component {
     render(){
         return(
             <>  
-                <DropDown handleSubmit={() => this.visualizeDijkstra()} 
+                <DropDown handleSubmit={(algo) => this.visualize(algo)} 
                 handleReset={() => this.handleResetBoard()} />
                 <div className="grid">
                     {this.state.grid.map((row, rowId) => 
